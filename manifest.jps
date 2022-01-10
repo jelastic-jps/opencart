@@ -24,7 +24,7 @@ description: |
   OpenCart is designed feature rich, easy to use, search engine friendly and with a visually
   appealing interface.
 
-engine: php7.3
+engine: php8.0
 nodes:
 - cloudlets: 8
   nodeType: apache2
