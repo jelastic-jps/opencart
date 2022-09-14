@@ -72,18 +72,20 @@ actions:
         echo "#Force https redirect
         RewriteCond %{HTTPS} !=on
         RewriteRule ^/?(checkout|account|admin) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
-        RewriteCond %{HTTPS} !=off" > /var/www/webroot/ROOT/.htaccess
+        RewriteCond %{HTTPS} !=off" >> /var/www/webroot/ROOT/.htaccess
         sed -i "s|define('HTTPS_SERVER', 'http:|define('HTTPS_SERVER', 'https:|g" ${WEBROOT}/ROOT/admin/config.php
         sed -i "s|define('HTTPS_CATALOG', 'http:|define('HTTPS_CATALOG', 'https:|g" ${WEBROOT}/ROOT/admin/config.php
         sed -i "s|define('HTTPS_SERVER', 'http:|define('HTTPS_SERVER', 'https:|g" ${WEBROOT}/ROOT/admin/config.php
+        sed -i "s|define('HTTPS_SERVER', 'http:|define('HTTPS_SERVER', 'https:|g" ${WEBROOT}/ROOT/config.php
     - restartNodes [cp]
   
   disableSSL:
     - cmd [cp]: |-
-        rm -rf /var/www/webroot/ROOT/.htaccess
+        sed -i "s|RewriteRule ^/?(checkout\|account\|admin)|#RewriteRule ^/?(checkout\|account\|admin)|g" ${WEBROOT}/ROOT/.htaccess
         sed -i "s|define('HTTPS_SERVER', 'https:|define('HTTPS_SERVER', 'http:|g" ${WEBROOT}/ROOT/admin/config.php
         sed -i "s|define('HTTPS_CATALOG', 'https:|define('HTTPS_CATALOG', 'http:|g" ${WEBROOT}/ROOT/admin/config.php
         sed -i "s|define('HTTPS_SERVER', 'https:|define('HTTPS_SERVER', 'http:|g" ${WEBROOT}/ROOT/admin/config.php
+        sed -i "s|define('HTTPS_SERVER', 'https:|define('HTTPS_SERVER', 'http:|g" ${WEBROOT}/ROOT/config.php
     - restartNodes [cp]
 
 success: |
