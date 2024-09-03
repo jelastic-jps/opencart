@@ -24,7 +24,7 @@ description: |
   OpenCart is designed feature rich, easy to use, search engine friendly and with a visually
   appealing interface.
 
-engine: php8.2
+engine: php8.3
 nodes:
 - cloudlets: 8
   nodeType: apache2
@@ -52,11 +52,13 @@ onInstall:
     newDatabaseUser:
       name: opencart
       password: "${globals.DB_PASS}"
-- cmd [cp]:
-  - cd ${WEBROOT}/ROOT
-  - unzip -o opencart-${globals.version_opencart}.zip
-  - cp -r upload/* .
-  - php install/cli_install.php install --db_hostname ${nodes.sqldb.address} --db_username opencart --db_password ${globals.DB_PASS} --db_database opencart --db_driver mysqli --db_port 3306 --username admin --password ${globals.ADMIN_PASS} --email ${user.email} --http_server ${env.protocol}://${env.domain}/
+- cmd [cp]: |-
+    cd ${WEBROOT}/ROOT;
+    cp -r upload/* .;
+    touch config.php && chmod 0777 config.php;
+    touch admin/config.php && chmod 0777 admin/config.php;
+    php install/cli_install.php install --db_hostname ${nodes.sqldb.address} --db_username opencart --db_password ${globals.DB_PASS} --db_database opencart --db_driver mysqli --db_port 3306 --username admin --password ${globals.ADMIN_PASS} --email ${user.email} --http_server ${env.protocol}://${env.domain}/
+    rm -rf install;
 
 success: |
   Below you will find your admin panel link, adminname and password.  
