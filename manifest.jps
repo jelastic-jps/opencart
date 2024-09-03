@@ -43,15 +43,10 @@ onInstall:
     - pattern: ".*extension=gd.so"
       replacement: extension=gd.so
 - restartNodes [cp]
-- prepareSqlDatabase:
-    nodeGroup: sqldb
-    loginCredentials:
-      user: root
-      password: "${nodes.sqldb.password}"
-    newDatabaseName: opencart
-    newDatabaseUser:
-      name: opencart
-      password: "${globals.DB_PASS}"
+- cmd[sqldb]: |-
+    MYSQL_PWD=${nodes.mysql8.password} mysql -uroot -e "CREATE DATABASE opencart;"
+    MYSQL_PWD=${nodes.mysql8.password} mysql -uroot -e "CREATE USER 'opencart'@'%' IDENTIFIED BY '${globals.DB_PASS}';"
+    MYSQL_PWD=${nodes.mysql8.password} mysql -uroot -e "GRANT ALL PRIVILEGES ON opencart.* To 'opencart'@'%' WITH GRANT OPTION;"
 - cmd [cp]: |-
     cd ${WEBROOT}/ROOT;
     cp -r upload/* .;
