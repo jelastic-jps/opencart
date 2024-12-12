@@ -1,5 +1,3 @@
-# opencart
-
 <p align="center"> 
 <img src="images/opencart.png" alt="OpenCart">
 </p>
