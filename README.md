@@ -4,7 +4,7 @@
 
 # OpenCart
 
-The package deploys the [OpenCart](https://www.opencart.com/) solution - an open-source, e-commerce platform to create, scale and run your business. OpenCart provides a professional and reliable foundation for building an online store. It offers a wide range of powerful features and extensions, making it easy to customize and scale.
+The package deploys the [OpenCart](https://www.opencart.com/) solution - an open-source e-commerce platform to create, scale, and run your business. OpenCart provides a professional and reliable foundation for building an online store. It offers a wide range of powerful features and extensions, making it easy to customize and scale.
 
 
 ## Environment Topology

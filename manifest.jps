@@ -18,11 +18,9 @@ globals:
   
 homepage: https://www.opencart.com/
 description: |
-  OpenCart is an open source PHP-based online shopping cart system. A
-  robust e-commerce solution for Internet merchants with the ability to create their
-  own online business and participate in e-commerce at a minimal cost.  
-  OpenCart is designed feature rich, easy to use, search engine friendly and with a visually
-  appealing interface.
+  OpenCart is an open-source PHP-based online shopping cart system. A robust e-commerce solution for Internet merchants that provides the ability to create your own online business and participate in e-commerce at a minimal cost.
+  
+  OpenCart offers a feature-rich, visually appealing interface that is easy to use.
 
 engine: php8.3
 nodes:
@@ -56,8 +54,10 @@ onInstall:
     rm -rf install;
 
 success: |
-  Below you will find your admin panel link, adminname and password.  
-  Admin URL: [${env.protocol}://${env.domain}/admin/](${env.protocol}://${env.domain}/admin/)  
-  Admin name: admin  
-  Password: ${globals.ADMIN_PASS}  
-  To add custom domain name for your OpenCart installation follow the steps described in our [documentation](https://www.virtuozzo.com/application-platform-docs/custom-domains/).
+  Use the following credentials to access the OpenCart admin panel:
+  
+  **Admin panel URL:** [${env.protocol}://${env.domain}/admin/](${env.protocol}://${env.domain}/admin/)  
+  **Admin name:** admin  
+  **Admin password:** ${globals.ADMIN_PASS}
+  
+  To add a custom domain name for your OpenCart installation, follow the steps described in our [documentation](https://www.virtuozzo.com/application-platform-docs/custom-domains/).
