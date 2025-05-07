@@ -7,7 +7,7 @@ logo: https://download.jelastic.com/public.php?service=files&t=fdfd68ab2a5a69003
 categories:
 - apps/e-commerce
 - apps/sales-and-marketing
-baseUrl: https://raw.githubusercontent.com/jelastic-jps/opencart/master/
+baseUrl: https://raw.githubusercontent.com/sych74/opencart/master/
 
 mixins:
  - configs/vers.yaml
@@ -24,6 +24,8 @@ description: |
   OpenCart is designed feature rich, easy to use, search engine friendly and with a visually
   appealing interface.
 
+ssl: true
+skipNodeEmails: true
 engine: php8.3
 nodes:
 - cloudlets: 8
@@ -52,8 +54,24 @@ onInstall:
     cp -r upload/* .;
     touch config.php && chmod 0777 config.php;
     touch admin/config.php && chmod 0777 admin/config.php;
-    php install/cli_install.php install --db_hostname ${nodes.sqldb.address} --db_username opencart --db_password ${globals.DB_PASS} --db_database opencart --db_driver mysqli --db_port 3306 --username admin --password ${globals.ADMIN_PASS} --email ${user.email} --http_server ${env.protocol}://${env.domain}/
+    php install/cli_install.php install \
+        --db_hostname ${nodes.sqldb.address} \
+        --db_username opencart \
+        --db_password ${globals.DB_PASS} \
+        --db_database opencart \
+        --db_driver mysqli \
+        --db_port 3306 \
+        --username admin \
+        --password ${globals.ADMIN_PASS} \
+        --email ${user.email} \
+        --http_server ${env.protocol}://${env.domain}/;
+    
+    mv system/storage /var/www/webroot/storage_secure;
+    sed -i "s|define('DIR_STORAGE'.*|define('DIR_STORAGE', '/var/www/webroot/storage_secure/');|g" config.php
+    sed -i "s|define('DIR_STORAGE'.*|define('DIR_STORAGE', '/var/www/webroot/storage_secure/');|g" admin/config.php
     rm -rf install;
+
+- restartNodes [cp]
 
 success: |
   Below you will find your admin panel link, adminname and password.  
